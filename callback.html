@@ -1,0 +1,21 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clip Studio – přihlášení</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>Přihlášení k TikToku</h1>
+<p id="msg">Předávám přihlášení do Clip Studia ve tvém počítači…</p>
+<div class="box" id="manual" hidden><p>Pokud se Clip Studio neotevřelo, ujisti se, že běží, a klikni znovu:</p>
+<p><a id="again" href="#">Dokončit přihlášení v Clip Studiu</a></p></div>
+<script>
+// The OAuth code never leaves this browser: it is handed straight to Clip Studio running on this computer.
+const q = new URLSearchParams(location.search);
+const target = 'http://127.0.0.1:8765/tiktok/callback?' + q.toString();
+if (q.get('error')) {
+  document.getElementById('msg').textContent = 'TikTok přihlášení zrušil: ' + (q.get('error_description') || q.get('error'));
+} else if (q.get('code')) {
+  document.getElementById('again').href = target;
+  setTimeout(() => { document.getElementById('manual').hidden = false; }, 2500);
+  location.replace(target);
+} else {
+  document.getElementById('msg').textContent = 'Tahle stránka slouží jen k dokončení přihlášení z Clip Studia.';
+}
+</script>
+</main></body></html>
